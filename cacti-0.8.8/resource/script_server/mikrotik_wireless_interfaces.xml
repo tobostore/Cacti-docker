@@ -1,0 +1,63 @@
+<interface>
+	<name>Get Mikrotik Wireless Interfaces</name>
+	<description>Queries a list of Wireless Interfaces that are on a Mikrotik Router</description>
+	<script_path>|path_php_binary| -q |path_cacti|/scripts/mikrotik_wireless_interfaces.php</script_path>
+	<arg_prepend>|host_snmp_community| |host_hostname|</arg_prepend>
+	<arg_index>index</arg_index>
+	<arg_query>query</arg_query>
+	<arg_get>get</arg_get>
+	<arg_num_indexes>num_indexes</arg_num_indexes>
+	<output_delimeter>!</output_delimeter>
+	<index_order>ifIndex</index_order>
+	<index_order_type>alphabetic</index_order_type>
+	<index_title_format>|chosen_order_field|</index_title_format>
+	
+	<fields>
+		<ifName>
+			<name>Name (IF-MIB)</name>
+			<direction>input</direction>
+			<query_name>ifName</query_name>
+		</ifName>
+		<ifIndex>
+			<name>Hardware Address</name>
+			<direction>input</direction>
+			<query_name>ifIndex</query_name>
+		</ifIndex>
+		
+		<ifInSignal>
+			<name>Receive Signal</name>
+			<direction>output</direction>
+			<query_name>ifInSignal</query_name>
+		</ifInSignal>
+		<ifInOctets>
+			<name>Bytes In</name>
+			<direction>output</direction>
+			<query_name>ifInOctets</query_name>
+		</ifInOctets>
+		<ifOutOctets>
+			<name>Bytes Out</name>
+			<direction>output</direction>
+			<query_name>ifOutOctets</query_name>
+		</ifOutOctets>
+		<ifInPackets>
+			<name>Packets In</name>
+			<direction>output</direction>
+			<query_name>ifInPackets</query_name>
+		</ifInPackets>
+		<ifOutPackets>
+			<name>Packets Out</name>
+			<direction>output</direction>
+			<query_name>ifOutPackets</query_name>
+		</ifOutPackets>
+		<ifInRate>
+			<name>Data Rate In</name>
+			<direction>output</direction>
+			<query_name>ifInRate</query_name>
+		</ifInRate>
+		<ifOutRate>
+			<name>Data Rate Out</name>
+			<direction>output</direction>
+			<query_name>ifOutRate</query_name>
+		</ifOutRate>
+	</fields>
+</interface>
