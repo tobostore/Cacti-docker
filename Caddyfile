@@ -1,0 +1,3 @@
+monitor.projektobi.my.id {
+    reverse_proxy apache-php:80
+}

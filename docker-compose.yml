@@ -2,33 +2,55 @@ services:
   apache-php:
     build: .                          # ← UBAH dari "image: php:7.0-apache"
     container_name: apache-php
-    ports:
-      - "8080:80"
+    env_file:
+      - .env
+    environment:
+      TZ: ${TZ:-Asia/Jakarta}
     volumes:
       - ./cacti/site:/var/www/html
+      - ./spine:/usr/sbin/spine
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - mysql
     restart: unless-stopped
+  
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
   mysql:
     image: mysql:5.7
     container_name: mysql
+    command: --sql-mode=""
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: gmdp2026
-      MYSQL_DATABASE: cacti
-      MYSQL_USER: cactiuser
-      MYSQL_PASSWORD: gmdp2026
+      TZ: ${TZ:-Asia/Jakarta}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
-    volumes:
+    volumes:  
       - mysql_data:/var/lib/mysql
+      - ./cacti.sql:/docker-entrypoint-initdb.d/cacti.sql
     restart: unless-stopped
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
+    env_file:
+      - .env
     environment:
+      TZ: ${TZ:-Asia/Jakarta}
       PMA_HOST: mysql
       PMA_PORT: 3306
       UPLOAD_LIMIT: 128M
@@ -42,3 +64,6 @@ services:
 
 volumes:
   mysql_data:
+  cacti_data:
+  caddy_data:
+  caddy_config:

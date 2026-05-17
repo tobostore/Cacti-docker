@@ -25,10 +25,10 @@
 /* make sure these values refect your actual database/host/user/password */
 $database_type = "mysqli";
 $database_default = "cacti";
-$database_hostname = "mysql";
-$database_username = "cactiuser";
-$database_password = "gmdp2026";
-$database_port = "3306";
+$database_hostname = getenv("CACTI_DB_HOST") ?: "mysql";
+$database_username = getenv("CACTI_DB_USER") ?: "cactiuser";
+$database_password = getenv("CACTI_DB_PASSWORD") ?: "gmdp2026";
+$database_port = getenv("CACTI_DB_PORT") ?: "3306";
 $database_ssl = false;
 
 /*

@@ -282,46 +282,72 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 <!DOCTYPE HTML>
 <html lang="id">
 <head>
-	<title><?php print api_plugin_hook_function("login_title", "MRTG-GMDP-MEGAH INTERMEDIA | Network Monitor");?></title>
+		<title><?php print api_plugin_hook_function("login_title", "Cacti | Network Monitor");?></title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style type="text/css">
-		/* ========== NETWORK THEME CSS ========== */
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 		:root {
-			--primary: #00d4aa;
-			--secondary: #0099ff;
-			--dark: #0a0e27;
-			--darker: #050714;
-			--card: rgba(20, 30, 60, 0.85);
-			--text: #e0e6ff;
-			--error: #ff4757;
-			--glow: 0 0 20px rgba(0, 212, 170, 0.4);
+				--primary: #61e6c6;
+				--secondary: #66a6ff;
+				--accent: #f6c36b;
+				--dark: #08111f;
+				--darker: #040816;
+				--card: rgba(10, 18, 35, 0.82);
+				--card-border: rgba(255, 255, 255, 0.12);
+				--text: #e8eefc;
+				--muted: rgba(232, 238, 252, 0.7);
+				--error: #ff6b7a;
+				--shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
 		}
 		
-		* { margin: 0; padding: 0; box-sizing: border-box; }
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+
+			body, button, input, select {
+				font-family: 'Inter', 'Segoe UI', Verdana, Arial, sans-serif;
+			}
 		
 		body {
-			font-family: 'Segoe UI', Verdana, Arial, sans-serif;
-			background: var(--darker);
+				background:
+					radial-gradient(circle at top left, rgba(102, 166, 255, 0.18), transparent 34%),
+					radial-gradient(circle at bottom right, rgba(97, 230, 198, 0.16), transparent 28%),
+					linear-gradient(135deg, #030712 0%, #08111f 42%, #050816 100%);
 			color: var(--text);
 			min-height: 100vh;
 			overflow-x: hidden;
 			position: relative;
 		}
 		
-		/* Animated Network Background */
 		.network-bg {
 			position: fixed;
 			top: 0; left: 0;
 			width: 100%; height: 100%;
 			z-index: -2;
-			background: 
-				radial-gradient(circle at 20% 35%, rgba(0, 153, 255, 0.15) 0%, transparent 50%),
-				radial-gradient(circle at 80% 70%, rgba(0, 212, 170, 0.12) 0%, transparent 50%),
-				linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+				opacity: 0.85;
+			}
+
+			.network-bg::before,
+			.network-bg::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+			}
+
+			.network-bg::before {
+				background-image:
+					linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+				background-size: 42px 42px;
+				mask-image: radial-gradient(circle at center, black 35%, transparent 82%);
+				opacity: 0.35;
+			}
+
+			.network-bg::after {
+				background: radial-gradient(circle at center, transparent 0%, rgba(4, 8, 22, 0.25) 72%, rgba(4, 8, 22, 0.6) 100%);
 		}
 		
-		/* Network Nodes Animation */
 		.network-nodes {
 			position: fixed;
 			top: 0; left: 0;
@@ -332,11 +358,11 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		
 		.node {
 			position: absolute;
-			width: 4px; height: 4px;
-			background: var(--primary);
+				width: 6px; height: 6px;
+				background: linear-gradient(135deg, var(--primary), var(--secondary));
 			border-radius: 50%;
-			box-shadow: 0 0 10px var(--primary);
-			animation: float 8s infinite ease-in-out;
+				box-shadow: 0 0 16px rgba(97, 230, 198, 0.55);
+				animation: float 10s infinite ease-in-out;
 			opacity: 0.7;
 		}
 		
@@ -345,8 +371,8 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 			position: absolute;
 			top: 50%; left: 50%;
 			transform: translate(-50%, -50%);
-			width: 20px; height: 20px;
-			border: 1px solid rgba(0, 212, 170, 0.3);
+				width: 26px; height: 26px;
+				border: 1px solid rgba(97, 230, 198, 0.22);
 			border-radius: 50%;
 			animation: pulse 3s infinite;
 		}
@@ -368,7 +394,7 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		.connection {
 			position: absolute;
 			height: 1px;
-			background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.4), transparent);
+				background: linear-gradient(90deg, transparent, rgba(102, 166, 255, 0.4), transparent);
 			transform-origin: left center;
 			animation: dataFlow 4s infinite linear;
 		}
@@ -384,20 +410,21 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 			align-items: center;
 			justify-content: center;
 			min-height: 100vh;
-			padding: 20px;
+				padding: 28px 18px;
 			position: relative;
 			z-index: 10;
 		}
 		
 		.login-card {
-			background: var(--card);
-			border: 1px solid rgba(0, 212, 170, 0.3);
-			border-radius: 16px;
-			padding: 30px;
+				background: linear-gradient(180deg, rgba(17, 27, 48, 0.88), rgba(10, 18, 35, 0.96));
+				border: 1px solid var(--card-border);
+				border-radius: 24px;
+				padding: 30px;
 			width: 100%;
-			max-width: 480px;
-			box-shadow: var(--glow), 0 10px 40px rgba(0, 0, 0, 0.5);
+				max-width: 520px;
+				box-shadow: var(--shadow);
 			backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
 			position: relative;
 			overflow: hidden;
 		}
@@ -406,8 +433,8 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 			content: '';
 			position: absolute;
 			top: 0; left: 0; right: 0;
-			height: 3px;
-			background: linear-gradient(90deg, var(--secondary), var(--primary), var(--secondary));
+				height: 4px;
+				background: linear-gradient(90deg, var(--secondary), var(--primary), var(--accent), var(--secondary));
 			animation: gradientFlow 3s linear infinite;
 			background-size: 200% 100%;
 		}
@@ -420,15 +447,15 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		/* Logo & Header */
 		.login-header {
 			text-align: center;
-			margin-bottom: 25px;
-			padding-bottom: 20px;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				margin-bottom: 22px;
+				padding-bottom: 18px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 		}
 		
 		.login-logo {
 			max-width: 200px;
 			margin-bottom: 15px;
-			filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.5));
+				filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35));
 			transition: transform 0.3s ease;
 		}
 		
@@ -437,48 +464,70 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		}
 		
 		.login-title {
-			font-size: 1.4rem;
-			font-weight: 600;
-			color: var(--primary);
-			text-shadow: 0 0 10px rgba(0, 212, 170, 0.3);
-			margin-bottom: 5px;
+				font-size: 1.5rem;
+				font-weight: 800;
+				letter-spacing: -0.03em;
+				color: #ffffff;
+				margin-bottom: 8px;
 		}
 		
 		.login-subtitle {
-			font-size: 0.9rem;
-			color: rgba(224, 230, 255, 0.7);
+				font-size: 0.94rem;
+				color: var(--muted);
+				line-height: 1.5;
+			}
+
+			.login-badge-row {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 8px;
+				margin-top: 14px;
+			}
+
+			.login-badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				padding: 8px 12px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				color: var(--muted);
+				font-size: 0.82rem;
 		}
 		
 		/* Error Messages */
 		.error-box {
-			background: rgba(255, 71, 87, 0.15);
-			border-left: 3px solid var(--error);
-			padding: 12px 15px;
-			margin: 15px 0;
-			border-radius: 0 8px 8px 0;
+				background: rgba(255, 107, 122, 0.12);
+				border: 1px solid rgba(255, 107, 122, 0.2);
+				padding: 12px 15px;
+				margin: 14px 0;
+				border-radius: 12px;
 			font-size: 0.9rem;
-			color: #ff6b7a;
+				color: #ffd0d5;
 		}
 		
 		/* Form Styling */
 		.form-group {
-			margin-bottom: 20px;
+				margin-bottom: 18px;
+				transition: transform 0.2s ease;
 		}
 		
 		.form-label {
 			display: block;
 			margin-bottom: 8px;
-			font-weight: 500;
+				font-weight: 600;
 			color: var(--text);
 			font-size: 0.95rem;
 		}
 		
 		.form-input {
 			width: 100%;
-			padding: 12px 15px;
-			background: rgba(15, 25, 50, 0.8);
-			border: 1px solid rgba(0, 212, 170, 0.3);
-			border-radius: 8px;
+				padding: 13px 15px;
+				background: rgba(6, 12, 24, 0.78);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 14px;
 			color: var(--text);
 			font-size: 1rem;
 			transition: all 0.3s ease;
@@ -486,21 +535,22 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		
 		.form-input:focus {
 			outline: none;
-			border-color: var(--primary);
-			box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
+				border-color: rgba(97, 230, 198, 0.55);
+				box-shadow: 0 0 0 4px rgba(97, 230, 198, 0.14);
+				background: rgba(6, 12, 24, 0.95);
 		}
 		
 		.form-input::placeholder {
-			color: rgba(224, 230, 255, 0.4);
+				color: rgba(232, 238, 252, 0.42);
 		}
 		
 		/* Realm Select */
 		.form-select {
 			width: 100%;
-			padding: 12px 15px;
-			background: rgba(15, 25, 50, 0.8);
-			border: 1px solid rgba(0, 212, 170, 0.3);
-			border-radius: 8px;
+				padding: 13px 15px;
+				background: rgba(6, 12, 24, 0.78);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 14px;
 			color: var(--text);
 			font-size: 1rem;
 			cursor: pointer;
@@ -509,8 +559,8 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		
 		.form-select:focus {
 			outline: none;
-			border-color: var(--primary);
-			box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
+				border-color: rgba(102, 166, 255, 0.55);
+				box-shadow: 0 0 0 4px rgba(102, 166, 255, 0.14);
 		}
 		
 		.form-select option {
@@ -521,22 +571,24 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		/* Login Button */
 		.login-btn {
 			width: 100%;
-			padding: 14px;
-			background: linear-gradient(135deg, var(--secondary), var(--primary));
+				padding: 14px;
+				background: linear-gradient(135deg, var(--secondary), var(--primary), var(--accent));
 			border: none;
-			border-radius: 8px;
+				border-radius: 14px;
 			color: white;
 			font-size: 1.1rem;
-			font-weight: 600;
+				font-weight: 700;
+				letter-spacing: 0.02em;
 			cursor: pointer;
 			transition: all 0.3s ease;
 			position: relative;
 			overflow: hidden;
+				box-shadow: 0 14px 28px rgba(102, 166, 255, 0.22);
 		}
 		
 		.login-btn:hover {
 			transform: translateY(-2px);
-			box-shadow: 0 10px 30px rgba(0, 212, 170, 0.4);
+				box-shadow: 0 18px 34px rgba(97, 230, 198, 0.26);
 		}
 		
 		.login-btn:active {
@@ -561,20 +613,20 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		
 		/* Footer Info */
 		.login-footer {
-			margin-top: 25px;
-			padding-top: 20px;
-			border-top: 1px solid rgba(255, 255, 255, 0.1);
+				margin-top: 22px;
+				padding-top: 18px;
+				border-top: 1px solid rgba(255, 255, 255, 0.08);
 			text-align: center;
 			font-size: 0.85rem;
-			color: rgba(224, 230, 255, 0.6);
+				color: var(--muted);
 			line-height: 1.6;
 		}
 		
 		.login-footer strong {
-			color: var(--primary);
+				color: #ffffff;
 			display: block;
 			margin-bottom: 5px;
-			font-size: 0.95rem;
+				font-size: 0.98rem;
 		}
 		
 		.login-footer a {
@@ -590,7 +642,7 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		.network-icon {
 			position: absolute;
 			font-size: 2rem;
-			opacity: 0.1;
+				opacity: 0.08;
 			z-index: 0;
 			pointer-events: none;
 		}
@@ -602,14 +654,15 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		/* Responsive */
 		@media (max-width: 520px) {
 			.login-card {
-				padding: 25px 20px;
-				margin: 10px;
+					padding: 24px 18px;
+					margin: 8px;
+					border-radius: 20px;
 			}
 			.login-title {
-				font-size: 1.2rem;
+					font-size: 1.15rem;
 			}
 			.form-input, .form-select {
-				padding: 10px 12px;
+					padding: 11px 12px;
 				font-size: 0.95rem;
 			}
 			.login-btn {
@@ -620,7 +673,7 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 		
 		/* Focus visible for accessibility */
 		:focus-visible {
-			outline: 2px solid var(--primary);
+				outline: 2px solid var(--accent);
 			outline-offset: 2px;
 		}
 	</style>
@@ -650,8 +703,12 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 				<?php if ($cacti_logo != '') { ?>
 					<img src="<?php echo $cacti_logo; ?>" class="login-logo" alt="Cacti Network Monitor">
 				<?php } ?>
-				<div class="login-title">NETWORK ACCESS MRTG GMDP - MEGAH INTERMEDIA</div>
-				<div class="login-subtitle">MRTG • GMDP • MEGAH INTERMEDIA</div>
+				<div class="login-title">Network Monitoring Portal</div>
+				<div class="login-subtitle">Silakan masuk untuk mengakses dashboard monitoring.</div>
+				<div class="login-badge-row">
+					<span class="login-badge">Secure Login</span>
+					<span class="login-badge">Cacti Monitoring</span>
+				</div>
 			</div>
 			
 			<?php if ($ldap_error) { ?>
@@ -664,8 +721,8 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 				<div class="error-box">🔒 User Account Disabled. Contact Administrator.</div>
 			<?php } ?>
 			
-			<div style="margin: 15px 0; padding: 12px; background: rgba(0, 212, 170, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-				<small style="color: var(--primary);">🔐 Silahkan Masukan Login MRTG GMDP - MEGAH INTERMEDIA yang telah diberikan:</small>
+			<div style="margin: 15px 0 18px; padding: 14px 15px; background: rgba(97, 230, 198, 0.08); border-radius: 14px; border: 1px solid rgba(97, 230, 198, 0.14);">
+				<small style="color: var(--primary); font-weight: 600;">🔐 Masukkan username dan password yang sudah diberikan untuk akses monitoring.</small>
 			</div>
 			
 			<div class="form-group">
@@ -697,15 +754,12 @@ if (api_plugin_hook_function('custom_login', OPER_MODE_NATIVE) == OPER_MODE_RESK
 			<?php } ?>
 			
 			<button type="submit" class="login-btn">
-				🚀 CONNECT TO MRTG 
+				🚀 CONNECT TO DASHBOARD 
 			</button>
 			
 			<div class="login-footer">
-				<strong>PT. GLOBAL MEDIA DATA PRIMA - MEGAH INTERMEDIA</strong>
-				📍 Kampung Malon RT 003 RW 006 Kelurahan Gunungpati <br>
-				 Kecamatan Gunungpati Kota Semarang Provinsi Jawa Tengah<br>
-				 ✉️ <a href="mailto:info@megahintermedia.com">info@megahintermedia.com</a><br>
-				<small style="opacity: 0.7;">© <?php echo date('Y'); ?> Network Operations Center • Secure Access Only</small>
+				<strong>Network Operations Center</strong>
+				<small style="opacity: 0.75;">© <?php echo date('Y'); ?> Secure access only</small>
 			</div>
 			
 			<?php api_plugin_hook('login_after'); ?>

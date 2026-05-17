@@ -17,6 +17,15 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update \
+    && mkdir -p /var/lib/cacti \
+    && mkdir -p /var/lib/cacti/rra \
+    && mkdir -p /var/log/cacti \    
+    && chown -R www-data:www-data /var/lib/cacti/ \
+    && chown -R www-data:www-data /var/log/cacti/ \
+    && chmod -R 664 /var/lib/cacti/rra/ \
+    && chmod 775 /var/lib/cacti/rra/ 
+
 # Install PHP extensions
 RUN docker-php-ext-install \
     mysqli \
@@ -35,8 +44,6 @@ RUN mkdir -p /usr/share/php/adodb \
     && tar -xzf v5.20.19.tar.gz \
     && cp -r ADOdb-5.20.19/* /usr/share/php/adodb/ \
     && rm -rf v5.20.19.tar.gz ADOdb-5.20.19
-
-RUN mkdir -p /var/log/cacti
 
 # Enable Apache rewrite
 RUN a2enmod rewrite
