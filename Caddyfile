@@ -1,3 +1,3 @@
-monitor.projektobi.my.id {
+domainmu.com {
     reverse_proxy apache-php:80
 }
