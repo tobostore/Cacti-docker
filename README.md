@@ -71,12 +71,6 @@ docker compose down
 docker compose up -d --build
 ```
 
-## Catatan Penting
-
-- Jangan commit `.env` jika berisi credential asli.
-- Jika volume MySQL sudah pernah terbuat, mengubah password di `.env` saja belum tentu mengubah user yang sudah tersimpan di database.
-- Jika database sudah jalan lama, kamu mungkin perlu update user MySQL atau inisialisasi ulang volume.
-
 ## Akses Layanan
 
 - Cacti: domain yang ada di [Caddyfile](Caddyfile)
