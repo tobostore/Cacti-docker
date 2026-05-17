@@ -42,9 +42,13 @@ Deploy Cacti dengan Docker Compose, Caddy, Apache/PHP, dan MySQL dalam satu fold
 ```bash
 docker compose up -d --build
 ```
-
-5. Akses aplikasi Cacti melalui domain yang sudah diarahkan ke server.
-6. Akses phpMyAdmin melalui `http://localhost:8081` atau port yang kamu buka di server.
+5. tambahkan crontab dengan perintah crontab -e lalu masukan crontab di bawah ini
+   ```bash
+   */5 * * * * docker exec apache-php php /var/www/html/poller.php > /dev/null 2>&1
+   */5 * * * * docker exec apache-php php /var/www/html/cmd.php > /dev/null 2>&1
+   ```
+6. Akses aplikasi Cacti melalui domain yang sudah diarahkan ke server.
+7. Akses phpMyAdmin melalui `http://localhost:8081` atau port yang kamu buka di server.
 
 ## Konfigurasi Environment
 
