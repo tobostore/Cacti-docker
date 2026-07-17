@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
     snmpd \
     snmp \
     rrdtool \
+    libjs-jquery \
+    libjs-jquery-ui \
+    libjs-jquery-cookie \
+    javascript-common \
     wget \
     ca-certificates \
     --no-install-recommends \
